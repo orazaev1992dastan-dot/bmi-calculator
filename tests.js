@@ -123,3 +123,4 @@ test("Скрипты подключены, используемые элемен
 });
 console.log(`\nПроверок пройдено: ${checks}`);
 require("./tests-contrast.js");
+require("./tests-static.js");

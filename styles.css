@@ -262,3 +262,9 @@ body, h1, h2, h3, label, .brand, .card { color: var(--text); }
 .secondary-button:focus-visible, button:focus-visible, a:focus-visible,
 .chart-scroll:focus-visible { outline-color: var(--focus); }
 
+/* На очень узком экране крайние подписи отделены от порогов ИМТ. */
+@media(max-width:400px) {
+  .scale-ticks { height:43px; }
+  .scale-ticks span:first-child, .scale-ticks span:last-child { top:16px; }
+}
+
