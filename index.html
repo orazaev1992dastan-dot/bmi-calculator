@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#087f78">
+  <meta name="description" content="Калькулятор индекса массы тела для взрослых: расчёт по росту и весу, понятная шкала и интерпретация.">
+  <title>Баланс — калькулятор ИМТ</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+  <script src="dashboard.js" defer></script>
+</head>
+<body>
+  <header class="header wrap">
+    <a class="brand" href="index.html" aria-label="Баланс — главная"><span class="brand-icon" aria-hidden="true">✚</span> баланс<span class="brand-dot">.</span></a>
+    <div class="header-actions"><span class="header-note">Просто о вашем здоровье</span><button id="theme-toggle" class="secondary-button" type="button" aria-pressed="false">Тёмная тема</button></div>
+  </header>
+  <main class="wrap">
+    <section class="intro" aria-labelledby="page-title">
+      <p class="eyebrow">ВАШ ОРИЕНТИР В ЗДОРОВЬЕ</p>
+      <h1 id="page-title">Узнайте свой<br>индекс массы тела<span>.</span></h1>
+      <p class="lead">Два показателя — первый шаг к пониманию своего тела.<br class="desktop-break"> Введите рост и вес, а мы поможем разобраться в результате.</p>
+      <span class="adult-label">Для взрослых от 18 лет</span>
+    </section>
+
+    <div class="calculator-grid">
+      <section class="card input-card" aria-labelledby="input-title">
+        <div class="section-heading"><span class="small-icon" aria-hidden="true">＋</span><h2 id="input-title">Ваши параметры</h2></div>
+        <p class="muted">Укажите текущие рост и вес.</p>
+        <form id="bmi-form" novalidate>
+          <div class="field">
+            <label for="height">Рост</label>
+            <div class="input-shell"><input id="height" name="height" type="text" inputmode="decimal" placeholder="Например, 170" autocomplete="off" aria-describedby="height-hint height-error"><span>см</span></div>
+            <p class="hint" id="height-hint">От 100 до 250 см</p>
+            <p class="error" id="height-error" role="alert" hidden></p>
+          </div>
+          <div class="field">
+            <label for="weight">Вес</label>
+            <div class="input-shell"><input id="weight" name="weight" type="text" inputmode="decimal" placeholder="Например, 65" autocomplete="off" aria-describedby="weight-hint weight-error"><span>кг</span></div>
+            <p class="hint" id="weight-hint">От 20 до 500 кг · можно использовать запятую</p>
+            <p class="error" id="weight-error" role="alert" hidden></p>
+          </div>
+          <button class="calculate" type="submit">Рассчитать ИМТ</button>
+          <button class="reset" type="reset">Очистить поля</button>
+        </form>
+        <p class="privacy"><span aria-hidden="true">▣</span> Расчёты сохраняются только в этом браузере</p>
+      </section>
+
+      <section class="card result-card" aria-labelledby="result-title">
+        <div class="result-heading"><h2 id="result-title">Ваш результат</h2><span class="unit-label">ИМТ · кг/м²</span></div>
+        <div id="result" class="result-content" aria-live="polite" aria-atomic="true">
+          <p class="bmi-value" id="bmi-value">—<span class="value-unit">кг/м²</span></p>
+          <p class="category" id="category">Здесь появится ваш ИМТ</p>
+          <p class="result-description" id="result-description">Введите рост и вес, затем нажмите «Рассчитать ИМТ».</p>
+        </div>
+        <div class="scale-section">
+          <div class="scale" aria-hidden="true">
+            <div class="scale-segment underweight"></div><div class="scale-segment normal"></div><div class="scale-segment overweight"></div><div class="scale-segment obesity"></div>
+            <span id="scale-marker" class="scale-marker" hidden></span>
+          </div>
+          <div class="scale-ticks" aria-hidden="true"><span>≤ 16</span><span>18,5</span><span>25</span><span>30</span><span>≥ 40</span></div>
+          <p class="hint scale-note">Шкала от 16 до 40; значения за пределами показаны на краях.</p>
+          <ul class="legend" aria-label="Категории индекса массы тела">
+            <li data-category="underweight"><span class="legend-dot underweight"></span><span>Недостаточная масса</span><strong>&lt; 18,5</strong></li>
+            <li data-category="normal"><span class="legend-dot normal"></span><span>Нормальная масса</span><strong>18,5 – &lt; 25</strong></li>
+            <li data-category="overweight"><span class="legend-dot overweight"></span><span>Избыточная масса</span><strong>25 – &lt; 30</strong></li>
+            <li data-category="obesity"><span class="legend-dot obesity"></span><span>Ожирение</span><strong>≥ 30</strong></li>
+          </ul>
+        </div>
+      </section>
+    </div>
+
+    <section class="card history-card" aria-labelledby="history-title">
+      <div class="history-heading"><div><p class="eyebrow">ДИНАМИКА ПОКАЗАТЕЛЯ</p><h2 id="history-title">История и график ИМТ</h2></div><button id="clear-history" type="button" class="secondary-button danger" disabled>Удалить историю</button></div>
+      <p class="muted">Каждый успешный расчёт добавляет точку. Выберите её касанием, мышью или клавишей Tab и Enter. Цветные полосы обозначают категории ИМТ.</p>
+      <div id="delete-confirmation" class="confirmation" hidden><p>Удалить все сохранённые расчёты? Восстановить их не получится.</p><div class="confirmation-actions"><button id="confirm-clear" type="button" class="secondary-button danger">Да, удалить всё</button><button id="cancel-clear" type="button" class="secondary-button">Отмена</button></div></div>
+      <p id="storage-status" class="storage-status" role="status"></p>
+      <p id="history-empty" class="empty-state">История пока пуста. Рассчитайте ИМТ, чтобы увидеть первую точку на графике.</p>
+      <div id="history-content" hidden>
+        <div class="chart-scroll" tabindex="0" role="region" aria-label="График ИМТ. На узком экране можно прокрутить по горизонтали."><svg id="bmi-chart" viewBox="0 0 720 280" aria-labelledby="chart-title chart-description"><title id="chart-title">ИМТ по порядку расчётов</title><desc id="chart-description">Ось X — последовательные расчёты с равным шагом, ось Y — ИМТ. Точные данные доступны при выборе точки и в списке ниже.</desc></svg></div>
+        <p id="chart-detail" class="chart-detail" aria-live="polite">Выберите точку графика.</p>
+        <p class="hint">По горизонтали — порядок расчётов, а не длительность промежутков между ними. Сохраняются последние 50 записей.</p>
+        <ol id="history-list" class="history-list" aria-label="Сохранённые расчёты, сначала новые"></ol>
+      </div>
+    </section>
+
+    <section class="about-grid" aria-label="Об индексе массы тела">
+      <article><h2>Что такое ИМТ?</h2><p>Индекс массы тела показывает соотношение веса и роста. Это простой ориентир для первичной оценки массы тела взрослого человека.</p></article>
+      <article><h2>Как мы считаем</h2><p class="formula">ИМТ = вес (кг) / рост² (м)</p><p>Например: 65 кг / (1,70 × 1,70) ≈ 22,49.</p></article>
+      <article><h2>Результат — не диагноз</h2><p>ИМТ не учитывает состав тела и мышечную массу. Эта интерпретация не подходит детям и беременным; индивидуальную оценку даст врач.</p></article>
+    </section>
+    <footer><span>баланс. <span class="footer-separator">/</span> Забота о себе начинается с понимания</span><a href="https://www.who.int/data/nutrition/nlis/info/malnutrition-in-women" target="_blank" rel="noopener noreferrer">Категории по данным ВОЗ</a></footer>
+  </main>
+</body>
+</html>

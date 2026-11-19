@@ -1,0 +1,50 @@
+# Зависимости и результаты сборки
+node_modules/
+dist/
+build/
+coverage/
+.cache/
+
+# Пароли, токены, ключи и локальные настройки
+.env
+.env.*
+*.pem
+*.key
+*.pfx
+*.p12
+.aws/
+.ssh/
+credentials*
+secrets*
+*.local
+
+# Персональные данные и выгрузки истории
+data/
+exports/
+private/
+history*.json
+*.db
+*.sqlite
+*.sqlite3
+
+# Временные файлы, журналы и резервные копии
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+tmp/
+temp/
+__pycache__/
+*.pyc
+
+# Локальные файлы редакторов и операционной системы
+.vscode/
+.idea/
+.codex/
+.agents/
+.DS_Store
+Thumbs.db
+Desktop.ini
